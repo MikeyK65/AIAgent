@@ -8,6 +8,12 @@ public sealed class SettingsViewModel : BaseViewModel
  private readonly ISettingsService settingsService;
     private bool useLiveOutlook;
     private string outlookClientId = string.Empty;
+    private string gitHubActivityLink = string.Empty;
+    private string gitHubAuthenticationToken = string.Empty;
+    private int gitHubRecentActivityCount = 10;
+    private string azureDevOpsActivityLink = string.Empty;
+    private string azureDevOpsAuthenticationToken = string.Empty;
+    private int azureDevOpsRecentActivityCount = 10;
     private string personalMailboxAddress = string.Empty;
     private string sharedMailboxAddress = string.Empty;
     private int messageFetchLimit = 25;
@@ -29,7 +35,7 @@ public sealed class SettingsViewModel : BaseViewModel
     private bool enableAiSummaries;
     private string ollamaBaseUrl = string.Empty;
     private string ollamaModel = string.Empty;
-    private string statusText = "Configure Outlook Graph access, retrieval folders, scoring weights, sender identities, and optional local AI settings.";
+    private string statusText = "Configure Outlook Graph access, GitHub and Azure DevOps activity feeds, scoring weights, sender identities, and optional local AI settings.";
 
   public SettingsViewModel(ISettingsService settingsService)
     {
@@ -51,6 +57,42 @@ public sealed class SettingsViewModel : BaseViewModel
     {
         get => outlookClientId;
         set => SetProperty(ref outlookClientId, value);
+    }
+
+    public string GitHubActivityLink
+    {
+        get => gitHubActivityLink;
+        set => SetProperty(ref gitHubActivityLink, value);
+    }
+
+    public string GitHubAuthenticationToken
+    {
+        get => gitHubAuthenticationToken;
+        set => SetProperty(ref gitHubAuthenticationToken, value);
+    }
+
+    public int GitHubRecentActivityCount
+    {
+        get => gitHubRecentActivityCount;
+        set => SetProperty(ref gitHubRecentActivityCount, value);
+    }
+
+    public string AzureDevOpsActivityLink
+    {
+        get => azureDevOpsActivityLink;
+        set => SetProperty(ref azureDevOpsActivityLink, value);
+    }
+
+    public string AzureDevOpsAuthenticationToken
+    {
+        get => azureDevOpsAuthenticationToken;
+        set => SetProperty(ref azureDevOpsAuthenticationToken, value);
+    }
+
+    public int AzureDevOpsRecentActivityCount
+    {
+        get => azureDevOpsRecentActivityCount;
+        set => SetProperty(ref azureDevOpsRecentActivityCount, value);
     }
 
     public string PersonalMailboxAddress
@@ -190,6 +232,12 @@ public sealed class SettingsViewModel : BaseViewModel
         var settings = settingsService.GetSettings();
         UseLiveOutlook = settings.UseLiveOutlook;
         OutlookClientId = settings.OutlookClientId;
+        GitHubActivityLink = settings.GitHubActivityLink;
+        GitHubAuthenticationToken = settings.GitHubAuthenticationToken;
+        GitHubRecentActivityCount = settings.GitHubRecentActivityCount;
+        AzureDevOpsActivityLink = settings.AzureDevOpsActivityLink;
+        AzureDevOpsAuthenticationToken = settings.AzureDevOpsAuthenticationToken;
+        AzureDevOpsRecentActivityCount = settings.AzureDevOpsRecentActivityCount;
         PersonalMailboxAddress = settings.PersonalMailboxAddress;
         SharedMailboxAddress = settings.SharedMailboxAddress;
         MessageFetchLimit = settings.MessageFetchLimit;
@@ -233,6 +281,12 @@ public sealed class SettingsViewModel : BaseViewModel
         {
             UseLiveOutlook = UseLiveOutlook,
             OutlookClientId = OutlookClientId,
+            GitHubActivityLink = GitHubActivityLink,
+            GitHubAuthenticationToken = GitHubAuthenticationToken,
+            GitHubRecentActivityCount = Math.Clamp(GitHubRecentActivityCount, 1, 50),
+            AzureDevOpsActivityLink = AzureDevOpsActivityLink,
+            AzureDevOpsAuthenticationToken = AzureDevOpsAuthenticationToken,
+            AzureDevOpsRecentActivityCount = Math.Clamp(AzureDevOpsRecentActivityCount, 1, 50),
             PersonalMailboxAddress = PersonalMailboxAddress,
             SharedMailboxAddress = SharedMailboxAddress,
             MessageFetchLimit = Math.Max(5, MessageFetchLimit),
@@ -257,7 +311,7 @@ public sealed class SettingsViewModel : BaseViewModel
         });
 
         StatusText = UseLiveOutlook
-            ? "Settings saved. Refresh the inbox to apply updated retrieval folders and scoring weights. Native Outlook pin state may still be unavailable through Graph."
-            : "Settings saved. Refresh the inbox to re-score messages using the updated identities and weights.";
+            ? "Settings saved. Refresh the inbox, GitHub, or Azure DevOps pages to apply the updated connections and summaries. Native Outlook pin state may still be unavailable through Graph."
+            : "Settings saved. Refresh the inbox, GitHub, or Azure DevOps pages to apply the updated identities, connections, and summaries.";
     }
 }

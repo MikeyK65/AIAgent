@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AIAgent.Views.GitHubActivityPage"
+             Title="GitHub">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Refresh" Command="{Binding RefreshCommand}" Priority="0" Order="Primary" />
+    </ContentPage.ToolbarItems>
+
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="16">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="GitHub activity" Style="{StaticResource Headline}" HorizontalTextAlignment="Start" HorizontalOptions="Start" />
+                    <Label Text="Load recent repository or profile events from the GitHub link configured in Settings." TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+                    <Label Text="{Binding StatusText}" />
+                    <Label Text="{Binding LastRefreshText}" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                </VerticalStackLayout>
+
+                <HorizontalStackLayout Spacing="12">
+                    <Button Text="Open configured link" Command="{Binding OpenSourceCommand}" IsVisible="{Binding HasSourceLink}" />
+                    <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+
+                <Border Padding="16" StrokeShape="RoundRectangle 16">
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Summary" FontAttributes="Bold" FontSize="18" />
+                        <Label Text="{Binding SummaryText}" LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label Text="Recent activity" FontAttributes="Bold" FontSize="18" />
+
+                <Label Text="No GitHub activity is available yet. Save a GitHub link in Settings, then refresh this page." IsVisible="{Binding HasNoActivities}" />
+
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Activities}" Spacing="12">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="18" />
+                                    <Label Text="{Binding Context}" FontAttributes="Bold" />
+                                    <Label Text="{Binding Description}" LineBreakMode="WordWrap" />
+                                    <Label Text="{Binding OccurredText}" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>

@@ -7,6 +7,12 @@ public sealed class LocalSettingsService : ISettingsService
 {
     private const string UseLiveOutlookKey = "use-live-outlook";
     private const string OutlookClientIdKey = "outlook-client-id";
+    private const string GitHubActivityLinkKey = "github-activity-link";
+    private const string GitHubAuthenticationTokenKey = "github-authentication-token";
+    private const string GitHubRecentActivityCountKey = "github-recent-activity-count";
+    private const string AzureDevOpsActivityLinkKey = "azure-devops-activity-link";
+    private const string AzureDevOpsAuthenticationTokenKey = "azure-devops-authentication-token";
+    private const string AzureDevOpsRecentActivityCountKey = "azure-devops-recent-activity-count";
     private const string PersonalMailboxAddressKey = "personal-mailbox-address";
     private const string SharedMailboxAddressKey = "shared-mailbox-address";
     private const string MessageFetchLimitKey = "message-fetch-limit";
@@ -35,6 +41,12 @@ public sealed class LocalSettingsService : ISettingsService
         {
             UseLiveOutlook = Preferences.Default.Get(UseLiveOutlookKey, false),
             OutlookClientId = Preferences.Default.Get(OutlookClientIdKey, string.Empty),
+            GitHubActivityLink = Preferences.Default.Get(GitHubActivityLinkKey, string.Empty),
+            GitHubAuthenticationToken = Preferences.Default.Get(GitHubAuthenticationTokenKey, string.Empty),
+            GitHubRecentActivityCount = Preferences.Default.Get(GitHubRecentActivityCountKey, 10),
+            AzureDevOpsActivityLink = Preferences.Default.Get(AzureDevOpsActivityLinkKey, string.Empty),
+            AzureDevOpsAuthenticationToken = Preferences.Default.Get(AzureDevOpsAuthenticationTokenKey, string.Empty),
+            AzureDevOpsRecentActivityCount = Preferences.Default.Get(AzureDevOpsRecentActivityCountKey, 10),
             PersonalMailboxAddress = Preferences.Default.Get(PersonalMailboxAddressKey, "mike.personal@hotmail.com"),
             SharedMailboxAddress = Preferences.Default.Get(SharedMailboxAddressKey, "family.shared@hotmail.com"),
             MessageFetchLimit = Preferences.Default.Get(MessageFetchLimitKey, 25),
@@ -63,6 +75,12 @@ public sealed class LocalSettingsService : ISettingsService
     {
         Preferences.Default.Set(UseLiveOutlookKey, settings.UseLiveOutlook);
         Preferences.Default.Set(OutlookClientIdKey, settings.OutlookClientId ?? string.Empty);
+        Preferences.Default.Set(GitHubActivityLinkKey, settings.GitHubActivityLink ?? string.Empty);
+        Preferences.Default.Set(GitHubAuthenticationTokenKey, settings.GitHubAuthenticationToken ?? string.Empty);
+        Preferences.Default.Set(GitHubRecentActivityCountKey, Math.Clamp(settings.GitHubRecentActivityCount, 1, 50));
+        Preferences.Default.Set(AzureDevOpsActivityLinkKey, settings.AzureDevOpsActivityLink ?? string.Empty);
+        Preferences.Default.Set(AzureDevOpsAuthenticationTokenKey, settings.AzureDevOpsAuthenticationToken ?? string.Empty);
+        Preferences.Default.Set(AzureDevOpsRecentActivityCountKey, Math.Clamp(settings.AzureDevOpsRecentActivityCount, 1, 50));
         Preferences.Default.Set(PersonalMailboxAddressKey, settings.PersonalMailboxAddress ?? string.Empty);
         Preferences.Default.Set(SharedMailboxAddressKey, settings.SharedMailboxAddress ?? string.Empty);
         Preferences.Default.Set(MessageFetchLimitKey, Math.Max(5, settings.MessageFetchLimit));

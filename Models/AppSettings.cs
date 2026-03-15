@@ -4,6 +4,12 @@ public sealed class AppSettings
 {
     public bool UseLiveOutlook { get; set; }
     public string OutlookClientId { get; set; } = string.Empty;
+    public string GitHubActivityLink { get; set; } = string.Empty;
+    public string GitHubAuthenticationToken { get; set; } = string.Empty;
+    public int GitHubRecentActivityCount { get; set; } = 10;
+    public string AzureDevOpsActivityLink { get; set; } = string.Empty;
+    public string AzureDevOpsAuthenticationToken { get; set; } = string.Empty;
+    public int AzureDevOpsRecentActivityCount { get; set; } = 10;
     public string PersonalMailboxAddress { get; set; } = "mike.personal@hotmail.com";
     public string SharedMailboxAddress { get; set; } = "family.shared@hotmail.com";
     public int MessageFetchLimit { get; set; } = 25;

@@ -8,7 +8,7 @@
         <VerticalStackLayout Padding="20" Spacing="16">
             <VerticalStackLayout Spacing="4">
                 <Label Text="Settings" Style="{StaticResource Headline}" HorizontalTextAlignment="Start" HorizontalOptions="Start" />
-                <Label Text="Configure live Outlook access, retrieval sources, scoring weights, sender identities, and optional local Ollama summaries." TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+                <Label Text="Configure live Outlook access, GitHub and Azure DevOps activity sources, scoring weights, sender identities, and optional local Ollama summaries." TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
                 <Label Text="{Binding StatusText}" />
             </VerticalStackLayout>
 
@@ -25,6 +25,26 @@
                     <Entry Text="{Binding MessageFetchLimit}" Placeholder="Messages per page" Keyboard="Numeric" />
                     <Label Text="Use a public client app registration with Microsoft Graph delegated Mail.Read and User.Read permissions. The app will prompt you to sign in to each mailbox when you refresh." FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
                     <Label Text="Native Outlook pinned state is not exposed here yet, so live messages currently treat pinning as unavailable." FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="GitHub" FontAttributes="Bold" FontSize="18" />
+                    <Entry Text="{Binding GitHubActivityLink}" Placeholder="GitHub profile or repository link" />
+                    <Entry Text="{Binding GitHubAuthenticationToken}" Placeholder="GitHub token (optional for public activity)" IsPassword="True" />
+                    <Entry Text="{Binding GitHubRecentActivityCount}" Placeholder="Recent activity items" Keyboard="Numeric" />
+                    <Label Text="Use a GitHub profile, organization, or repository URL. A token helps with rate limits and private repository access where available." FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Azure DevOps" FontAttributes="Bold" FontSize="18" />
+                    <Entry Text="{Binding AzureDevOpsActivityLink}" Placeholder="Azure DevOps project link" />
+                    <Entry Text="{Binding AzureDevOpsAuthenticationToken}" Placeholder="Azure DevOps personal access token" IsPassword="True" />
+                    <Entry Text="{Binding AzureDevOpsRecentActivityCount}" Placeholder="Recent activity items" Keyboard="Numeric" />
+                    <Label Text="Use a project URL like https://dev.azure.com/organization/project and a personal access token that can read code and build activity." FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
                 </VerticalStackLayout>
             </Border>
 

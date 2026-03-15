@@ -16,6 +16,14 @@
             ContentTemplate="{DataTemplate views:AccountsPage}"
             Route="AccountsPage" />
         <ShellContent
+            Title="GitHub"
+            ContentTemplate="{DataTemplate views:GitHubActivityPage}"
+            Route="GitHubActivityPage" />
+        <ShellContent
+            Title="Azure DevOps"
+            ContentTemplate="{DataTemplate views:AzureDevOpsActivityPage}"
+            Route="AzureDevOpsActivityPage" />
+        <ShellContent
             Title="Settings"
             ContentTemplate="{DataTemplate views:SettingsPage}"
             Route="SettingsPage" />
