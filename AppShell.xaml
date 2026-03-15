@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="AIAgent.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:AIAgent.Views"
+    Title="Priority Mail">
+
+    <TabBar>
+        <ShellContent
+            Title="Important"
+            ContentTemplate="{DataTemplate views:InboxPage}"
+            Route="InboxPage" />
+        <ShellContent
+            Title="Accounts"
+            ContentTemplate="{DataTemplate views:AccountsPage}"
+            Route="AccountsPage" />
+        <ShellContent
+            Title="Settings"
+            ContentTemplate="{DataTemplate views:SettingsPage}"
+            Route="SettingsPage" />
+    </TabBar>
+
+</Shell>

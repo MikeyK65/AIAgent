@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AIAgent.Views.MessageDetailPage"
+             Title="Email detail">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+            <VerticalStackLayout Spacing="4">
+                <Label Text="{Binding SelectedMessage.Subject}" Style="{StaticResource Headline}" HorizontalTextAlignment="Start" HorizontalOptions="Start" />
+                <Label Text="{Binding SelectedMessage.SenderLine}" />
+                <Label Text="{Binding SelectedMessage.ReceivedText}" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+            </VerticalStackLayout>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Why this email is important" FontAttributes="Bold" FontSize="18" />
+                    <Label Text="{Binding SelectedMessage.ImportanceReasonsText}" />
+                    <Label Text="{Binding SelectedMessage.CategoriesText, StringFormat='Categories: {0}'}" />
+                    <Label Text="{Binding SelectedMessage.AccountLabel, StringFormat='Mailbox: {0}'}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Preview" FontAttributes="Bold" FontSize="18" />
+                    <Label Text="{Binding SelectedMessage.Preview}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Message body" FontAttributes="Bold" FontSize="18" />
+                    <Label Text="{Binding SelectedMessage.BodyText}" LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Optional AI summary" FontAttributes="Bold" FontSize="18" />
+                    <Button Text="Generate summary with Ollama" Command="{Binding SummarizeCommand}" />
+                    <Label Text="{Binding SummaryText}" LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

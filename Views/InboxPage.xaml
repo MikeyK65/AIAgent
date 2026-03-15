@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AIAgent.Views.InboxPage"
+             x:Name="InboxPageRoot"
+             Title="Important">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Refresh" Command="{Binding RefreshCommand}" Priority="0" Order="Primary" />
+    </ContentPage.ToolbarItems>
+
+    <Grid Padding="20" RowDefinitions="Auto,Auto,Auto,*" RowSpacing="16">
+        <VerticalStackLayout Spacing="4">
+            <Label Text="Important email" Style="{StaticResource Headline}" HorizontalTextAlignment="Start" HorizontalOptions="Start" />
+            <Label Text="One ranked view across your personal and shared Outlook accounts." TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+            <Label Text="{Binding StatusText}" />
+            <Label Text="{Binding LastRefreshText}" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+        </VerticalStackLayout>
+
+        <Border Grid.Row="1" Padding="16" StrokeShape="RoundRectangle 16">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Filters" FontAttributes="Bold" FontSize="18" />
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="Account" />
+                        <Picker ItemsSource="{Binding AccountFilterOptions}" SelectedItem="{Binding SelectedAccountFilter}" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="6">
+                        <Label Text="Category" />
+                        <Picker ItemsSource="{Binding CategoryOptions}" SelectedItem="{Binding SelectedCategory}" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Sort by" />
+                    <Picker ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSortOption}" />
+                </VerticalStackLayout>
+
+                <Grid ColumnDefinitions="Auto,*,Auto,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="8" RowSpacing="6">
+                    <CheckBox IsChecked="{Binding ShowPinnedOnly}" />
+                    <Label Grid.Column="1" Text="Pinned" VerticalTextAlignment="Center" />
+                    <CheckBox Grid.Column="2" IsChecked="{Binding ShowFlaggedOnly}" />
+                    <Label Grid.Column="3" Text="Flagged" VerticalTextAlignment="Center" />
+
+                    <CheckBox Grid.Row="1" IsChecked="{Binding ShowRepliesOnly}" />
+                    <Label Grid.Row="1" Grid.Column="1" Text="Replies" VerticalTextAlignment="Center" />
+                    <CheckBox Grid.Row="1" Grid.Column="2" IsChecked="{Binding ShowFromMeOnly}" />
+                    <Label Grid.Row="1" Grid.Column="3" Text="From me" VerticalTextAlignment="Center" />
+
+                    <CheckBox Grid.Row="2" IsChecked="{Binding ShowFromWifeOnly}" />
+                    <Label Grid.Row="2" Grid.Column="1" Text="From wife" VerticalTextAlignment="Center" />
+                    <Button x:Name="ClearFiltersButton" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Text="Clear filters" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <Border Grid.Row="2" Padding="16" StrokeShape="RoundRectangle 16">
+            <VerticalStackLayout Spacing="12">
+                <HorizontalStackLayout Spacing="10">
+                    <CheckBox x:Name="SelectionModeCheckBox" IsChecked="{Binding IsSelectionModeEnabled}" />
+                    <Label Text="Select multiple emails for an AI summary" VerticalTextAlignment="Center" />
+                </HorizontalStackLayout>
+
+                <Label Text="{Binding SelectionStatusText}" />
+
+                <Button x:Name="SummarizeSelectedButton"
+                        Text="Summarize selected emails"
+                        Clicked="OnSummarizeSelectedClicked"
+                        IsEnabled="{Binding CanSummarizeSelectedMessages}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <RefreshView Grid.Row="3" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+            <CollectionView ItemsSource="{Binding Messages}"
+                            x:Name="MessagesCollectionView"
+                            SelectionMode="{Binding MessageSelectionMode}"
+                            SelectionChanged="OnSelectionChanged"
+                            RemainingItemsThreshold="5"
+                            RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}">
+                <CollectionView.EmptyView>
+                    <Border Padding="16" StrokeShape="RoundRectangle 16">
+                        <Label Text="No messages match the current filters." />
+                    </Border>
+                </CollectionView.EmptyView>
+                <CollectionView.Footer>
+                    <Grid Padding="0,4,0,12" IsVisible="{Binding IsLoadingMore}">
+                        <ActivityIndicator IsRunning="{Binding IsLoadingMore}" HorizontalOptions="Center" />
+                    </Grid>
+                </CollectionView.Footer>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="16" Margin="0,0,0,12" StrokeShape="RoundRectangle 16">
+                            <VerticalStackLayout Spacing="8">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                    <Label Text="{Binding Subject}" FontAttributes="Bold" FontSize="18" />
+                                    <Label Grid.Column="1" Text="{Binding Priority.Score, StringFormat='Score {0}'}" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" FontAttributes="Bold" />
+                                </Grid>
+
+                                <HorizontalStackLayout Spacing="10">
+                                    <Label Text="{Binding AccountLabel}" FontAttributes="Bold" />
+                                    <Label Text="{Binding SenderLine}" />
+                                </HorizontalStackLayout>
+
+                                <Label Text="{Binding ImportanceReasonsText}" TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+                                <Label Text="{Binding CategoriesText, StringFormat='Categories: {0}'}" FontSize="12" />
+                                <Label Text="{Binding Preview}" LineBreakMode="WordWrap" />
+                                <Label Text="{Binding ReceivedText}" FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AIAgent.Views.SettingsPage"
+             Title="Settings">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+            <VerticalStackLayout Spacing="4">
+                <Label Text="Settings" Style="{StaticResource Headline}" HorizontalTextAlignment="Start" HorizontalOptions="Start" />
+                <Label Text="Configure live Outlook access, retrieval sources, scoring weights, sender identities, and optional local Ollama summaries." TextColor="{AppThemeBinding Light={StaticResource Gray700}, Dark={StaticResource Gray300}}" />
+                <Label Text="{Binding StatusText}" />
+            </VerticalStackLayout>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Outlook Graph" FontAttributes="Bold" FontSize="18" />
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding UseLiveOutlook}" />
+                        <Label Text="Use live Hotmail / Outlook accounts" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                    <Entry Text="{Binding OutlookClientId}" Placeholder="Azure app client ID" />
+                    <Entry Text="{Binding PersonalMailboxAddress}" Placeholder="Personal mailbox address" />
+                    <Entry Text="{Binding SharedMailboxAddress}" Placeholder="Shared mailbox address" />
+                    <Entry Text="{Binding MessageFetchLimit}" Placeholder="Messages per page" Keyboard="Numeric" />
+                    <Label Text="Use a public client app registration with Microsoft Graph delegated Mail.Read and User.Read permissions. The app will prompt you to sign in to each mailbox when you refresh." FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                    <Label Text="Native Outlook pinned state is not exposed here yet, so live messages currently treat pinning as unavailable." FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Message retrieval" FontAttributes="Bold" FontSize="18" />
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding IncludeInboxMessages}" />
+                        <Label Text="Include inbox messages" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding IncludeSentMessages}" />
+                        <Label Text="Include sent items" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding IncludeFlaggedMessages}" />
+                        <Label Text="Include flagged messages" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                    <Label Text="Flagged messages are fetched across folders and deduplicated with inbox and sent results." FontSize="12" TextColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray400}}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Priority identities" FontAttributes="Bold" FontSize="18" />
+                    <Entry Text="{Binding UserEmailAddress}" Placeholder="Your email address" />
+                    <Entry Text="{Binding WifeEmailAddress}" Placeholder="Wife email address" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Scoring weights" FontAttributes="Bold" FontSize="18" />
+                    <Entry Text="{Binding PinnedWeight}" Placeholder="Pinned weight" Keyboard="Numeric" />
+                    <Entry Text="{Binding FlaggedWeight}" Placeholder="Flagged weight" Keyboard="Numeric" />
+                    <Entry Text="{Binding ReplyWeight}" Placeholder="Reply weight" Keyboard="Numeric" />
+                    <Entry Text="{Binding FromUserWeight}" Placeholder="From you weight" Keyboard="Numeric" />
+                    <Entry Text="{Binding FromWifeWeight}" Placeholder="From wife weight" Keyboard="Numeric" />
+                    <Entry Text="{Binding CategoryWeightPerCategory}" Placeholder="Per-category weight" Keyboard="Numeric" />
+                    <Entry Text="{Binding RecentWithin12HoursWeight}" Placeholder="Received within 12 hours" Keyboard="Numeric" />
+                    <Entry Text="{Binding RecentWithin24HoursWeight}" Placeholder="Received within 24 hours" Keyboard="Numeric" />
+                    <Entry Text="{Binding RecentWithin72HoursWeight}" Placeholder="Received within 72 hours" Keyboard="Numeric" />
+                    <Entry Text="{Binding RecentWithin168HoursWeight}" Placeholder="Received within 7 days" Keyboard="Numeric" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16" StrokeShape="RoundRectangle 16">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="AI summaries" FontAttributes="Bold" FontSize="18" />
+                    <HorizontalStackLayout Spacing="10">
+                        <CheckBox IsChecked="{Binding EnableAiSummaries}" />
+                        <Label Text="Enable local Ollama summaries" VerticalTextAlignment="Center" />
+                    </HorizontalStackLayout>
+                    <Entry Text="{Binding OllamaBaseUrl}" Placeholder="Ollama base URL" />
+                    <Entry Text="{Binding OllamaModel}" Placeholder="Ollama model" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Save settings" Command="{Binding SaveCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
